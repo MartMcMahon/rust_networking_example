@@ -1,4 +1,4 @@
-use std::io::BufRead;
+// use std::io::BufRead;
 use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader, Stdin};
 use tokio::net::TcpStream;
 
@@ -9,7 +9,7 @@ async fn main() {
         .expect("Could not connect.");
     loop {
         let mut input = Vec::new();
-        let mut buffer = Vec::new();
+        // let mut buffer = String::new();
         tokio::io::stdin()
             .read_exact(&mut input)
             .await
@@ -19,13 +19,15 @@ async fn main() {
             .await
             .expect("Failed to write to server");
 
-        let mut reader = BufReader::new(stream);
+        // let mut reader = BufReader::new(stream);
 
-        reader.read_line(buffer).await.
-            .expect("Could not read into buffer");
-        print!(
-            "{}",
-            std::str::from_utf8(&buffer).expect("Could not write buffer as string")
-        );
+        // reader
+        //     .read_line(&mut buffer)
+        //     .await
+        //     .expect("Could not read into buffer");
+        // print!(
+        //     "{}",
+        //     std::str::from_utf8(&buffer).expect("Could not write buffer as string")
+        // );
     }
 }
