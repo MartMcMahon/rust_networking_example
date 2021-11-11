@@ -6,7 +6,9 @@ use tokio::{
 
 #[tokio::main]
 async fn main() {
-    let mut stream = TcpStream::connect("127.0.0.1:8000").await.unwrap();
+    let mut stream = TcpStream::connect("localhost:8000")
+        .await
+        .expect("could not open");
     let (mut reader, mut writer) = stream.split();
 
     loop {
@@ -15,9 +17,9 @@ async fn main() {
         let n = stdin.read(&mut input_buf).await.unwrap();
         println!("read {:?}", input_buf);
 
-        let len = writer.write(&input_buf[..n]).await;
-        println!("written {:?}", len);
-        let mut line = [0_u8]; //String::new();
+        let res = writer.write(&input_buf[..n]).await;
+        println!("written {:?}", res.unwrap());
+        let mut line = [0_u8; 10];
         let len = reader.read(&mut line).await;
         println!("{:?} {:?}", line, len);
     }
